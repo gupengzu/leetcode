@@ -1,0 +1,15 @@
+# the most important part:
+
+Algorithms for reducing the complexity of multiplication.
+1.Divide-and-Conquer Recursion Method:
+for example: multiply 513432 by 34545.
+we can it as  513432
+		  x 034545
+then let X_h=513,X_l=432,Y_h=034,Y_l=545,
+then result= X_h * Y_h * 10 ** 6 + (X_h * Y_l +Y_h* X_l) * 10 ** 3+X_l * Y_l,
+then let A=Xh* Yh B=Xl*Yl C=(Xh+Xl)* (Yh+Yl),
+then result=A* 10 ** 6 +(C-A-B)* 10 ** 3 + B
+then  let recursion n times(2 ** n= len of 513432)
+so is O(2** 1.585)
+
+but if we want to faster ,we should use Fast Fourier Transform.(we will learn in the future)
