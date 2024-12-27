@@ -1,0 +1,159 @@
+0,1,1,2,3,5,8,...
+
+1 recursion
+F(n+2)=F(n+1)+F(n)
+so,do it just like magic start
+here is its code in C++
+
+#include <iostream>
+using namespace std;
+
+int recursion(int n)
+{
+    if (n <= 1)
+    {
+        return n;
+    }
+    int a = recursion(n - 1);
+    int b = recursion(n - 2);
+    return a + b;
+}
+
+int main()
+{
+    int c = recursion(6);
+    cout << c << endl;
+
+    return 0;
+}
+2 iteration
+let a=0 b=1 n=0
+when n plus 1,b becomes a+b ,a becomes b
+so n is always equal a+b
+here is its code in C++
+
+#include<iostream>
+using namespace std;
+
+int iteration(int n)
+{
+    if(n<=1)
+    {
+        return n;
+    }
+    int b=1;
+    int a=0;
+    for (int i = 2; i < n;i++)
+    {
+        int temp=a+b;
+        a = b;
+        b = temp;
+    }
+    return a + b;
+}
+
+int main()
+{
+    int c=iteration(6);
+    cout << c << endl;
+    return 0;
+}
+3 fast matrix powering
+#include<iostream>
+#include<vector>
+using namespace std;
+
+
+typedef vector<vector<long long>> matrix;
+const int MOD = 1000000007;
+
+//matrix multiplication
+matrix multiply(matrix A,matrix B)
+{
+    int n = A.size();
+    matrix C(n,vector<long long>(n));
+    for (int i = 0; i < n;++i)
+    {
+        for (int j = 0; j < n;++j)
+        {
+            for (int k = 0; k < n;++k)
+            {
+                C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % MOD;
+            }
+        }
+    }
+    return C;
+}
+
+//matrix fast power
+matrix matrix_pow(matrix A,int p)
+{
+    int n=A.size();
+    matrix result(n,vector<long long>(n));
+    for (int i = 0; i < n;++i)
+    {
+        result[i][i] = 1;
+    }
+    while(p)
+    {
+        if(p%2==1)
+        {
+            result = multiply(result, A);
+        }
+        A=multiply(A,A);
+        p /= 2;
+    }
+    return result;
+}
+
+long long fibonacci(int n)
+{
+    if(n==0)
+    {
+        return 0;
+    }
+    if(n==1)
+    {
+        return 1;
+    }
+    matrix T = {{1, 1}, {1, 0}};
+    T = matrix_pow(T, n - 1);
+    return T[0][0];
+}
+
+int main()
+{
+    return 0;
+}
+4 matrix_eigenval_decomposion
+//此文件太大，不推荐。
+#include <iostream>
+#include <Eigen/Dense>
+#include<unsupported/Eigen/MatrixFunctions>
+using namespace std;
+using namespace Eigen;
+
+double fibonacci(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+
+    Matrix2d A;
+    A << 1, 1,
+         1, 0;
+
+    EigenSolver<Matrix2d> es(A);
+    Matrix2d D = es.eigenvalues().real().asDiagonal(); // 仅取实部
+    Matrix2d V = es.eigenvectors().real(); // 仅取实部
+    Matrix2d V_inv = V.inverse();
+
+    Matrix2d A_n = V * D.pow(n - 1) * V_inv;
+    return round(A_n(0, 0)); // 确保返回整数
+}
+
+int main() {
+    int n;
+    cout << "请输入要计算的斐波那契数列的项数: ";
+    cin >> n;
+    cout << "第" << n << "个斐波那契数是: " << fibonacci(n) << endl;
+    return 0;
+}
