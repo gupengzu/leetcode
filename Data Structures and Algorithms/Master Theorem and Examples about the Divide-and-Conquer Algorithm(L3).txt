@@ -1,0 +1,66 @@
+if you want to learn about the Big O and others : Some Supplementary Notes > Big O and his friends
+
+1.Master Theorem
+it is a theorem for some Divide-and-Conquer Algorithms
+The Divide-and-Conquer Algorithm.png
+
+2.examples about the Divide-and-Conquer Algorithm
+1.Matrixs multiply
+Matrixs multiply used by D-and-C A.png
+
+2.Merge Sort
+Pasted image 20241227174426.png
+but there has some algorithms that faster than Merge Sort.
+like some randomized algorithmsSome Supplementary Notes > randomized algorithm
+NOTICE: if the compare is the only one way you can use to sort, you can not find a algorithm that is better than nlogn.
+here is the proof:
+Divide-and-Conquer (Part 2)字幕版_哔哩哔哩_bilibili
+in its 36:13
+
+3.Quick Sort and Quick Select
+Quick sort and Quick select are both important algorithms in computer science. Here is a detailed introduction to them:
+
+Quick Sort
+Basic Idea: Quick sort is a divide-and-conquer sorting algorithm. It selects a pivot element from the array and partitions the other elements into two sub-arrays, according to whether they are less than or greater than the pivot. The sub-arrays are then sorted recursively.
+Algorithm Steps
+Select Pivot: Choose a pivot element from the array. This can be the first element, the last element, a random element, or the median of the first, middle, and last elements.
+Partition: Rearrange the elements in the array so that all elements less than the pivot are to the left of the pivot and all elements greater than the pivot are to the right.
+Recursive Sort: Recursively apply the above steps to the left and right sub-arrays until the entire array is sorted.
+Time Complexity: The average time complexity is , where  is the number of elements in the array. In the worst case, when the pivot is always the largest or smallest element, the time complexity degenerates to .
+Space Complexity: The space complexity is  due to the recursive calls. In the worst case, it can be .
+Quick Select
+Basic Idea: Quick select is an algorithm for finding the -th smallest (or largest) element in an unordered list. It also uses the divide-and-conquer strategy like quick sort.
+Algorithm Steps
+Select Pivot and Partition: Similar to quick sort, choose a pivot and partition the array.
+Determine Position: After partitioning, if the pivot is in the correct position such that there are exactly  elements less than it, then the pivot is the -th smallest element. If the number of elements less than the pivot is greater than , then the -th smallest element must be in the left sub-array. Otherwise, it is in the right sub-array.
+Recursive Search: Recursively search in the appropriate sub-array until the -th smallest element is found.
+Time Complexity: The average time complexity is , where  is the number of elements in the array. In the worst case, it is .
+Space Complexity: The space complexity is  due to the recursive calls. In the worst case, it can be .
+In summary, quick sort is mainly used for sorting an entire array, while quick select is focused on finding a specific element in an unordered list. Both algorithms have efficient average-case performance but can degrade in the worst case.
+
+But if there has some elements in array are the same, we can deal with this in this way:
+3f63f2764510dbcc08f45258f18c51a.png
+but the first element is selected in random,if it is the least one and we want to find the biggest one. it will become a O(n* n) question. So we should do some thing to deal with it:
+This appears to be a description of a selection algorithm, likely related to finding the k - th smallest element in an array. Let's break down the steps written on the blackboard:
+
+Function Definition:
+
+Select(A[1...n], k): This is the function we are defining. It aims to select the k - th smallest element from the array A, which has n elements.
+First Step:
+
+Break A into groups of size 5 each: This step involves dividing the array A into smaller groups, each containing 5 elements. This is a common strategy in selection algorithms to simplify the problem.
+Second Step:
+
+B ← array of medians in each group: For each group of 5 elements, find the median (the middle element when the group is sorted). Collect all these medians into a new array B.
+Third Step:
+
+P ← Select(B, ⌊|B|/10⌋): Recursively call the Select function on the array B. The goal is to find the median of the medians. The argument ⌊|B|/10⌋ suggests finding the index of the median of the medians.
+Fourth Step:
+
+L ← {x ∈ A : x ≤ p}, R ← {x ∈ A : x ≥ p}: Partition the original array A into two subsets. L contains all elements less than or equal to the median of the medians (p), and R contains all elements greater than or equal to p.
+Final Step:
+
+The k - th smallest element will be in either L or R, depending on the value of k. The algorithm likely proceeds by recursively calling Select on the appropriate subset (either L or R) until the k - th smallest element is found.
+This algorithm is known as the "Median of Medians" algorithm, which is used to achieve a linear - time worst - case complexity for the selection problem. The key idea is to reduce the problem size by focusing on the median of the medians at each step, ensuring a balanced partitioning of the array.
+Pasted image 20241227200909.png
+please watch Fast Fourier Transform字幕版_哔哩哔哩_bilibili the last 10 minutes to understand how to prove and why if divided by 3 will false.
