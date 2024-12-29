@@ -1,0 +1,159 @@
+# Depth-First Search(DFS)
+
+## Explore 
+![[Pasted image 20241229201414.png]]
+## undirected graph
+![[Pasted image 20241229201539.png]]
+
+## connectivity in undirected graphs
+![[Pasted image 20241229201707.png]]
+
+To achieve this goal:
+**for all v belongs to V: visited[v]=false; 
+	        ......ccnum[v]=null;
+cc=0;
+for all v belongs to V: if not visited[v]
+				..cc++;
+				..explore(G,v);**
+
+and we alse need to modify the **explore(G,v)**
+**Explore(G,v):
+	visited[v]=true;
+	ccnum[v]=cc;
+	for all (v,u) belongs to E(this pseudo code means that all u that connected with v):
+		if not visited[u] :
+			explore(G,u);**
+
+## Previsit and postvisit orderings
+![[Pasted image 20241229202954.png]]
+pseudo code:
+```
+// 全局变量，用于记录时间戳
+time = 0
+
+// 维护一个栈来记录节点在栈中的时间
+Maintain a global stack for time on stack
+
+DFS(G):
+    for u in V:
+        u.visited = False
+        u.previsit = -1
+        u.postvisit = -1
+    for u in V:
+        if not u.visited:
+            Explore(u)
+
+Explore(u):
+    u.visited = True
+    // Pre - visit操作
+    time = time + 1
+    u.previsit = time
+    for v in adj(u):
+        if not v.visited:
+            Explore(v)
+    // Post - visit操作
+    time = time + 1
+    u.postvisit = time
+```
+
+![[Pasted image 20241229203409.png]]
+
+![[Pasted image 20241229203423.png]]
+we want all pots to be forward and here is a subroutine called **topological sort**. it is easy:we just need output vectices in descending post numbers(降序输出顶点后序)
+
+![[Pasted image 20241229205612.png]]
+here is an example.it tells us we can in desending post numbers but can not increasing pre number.
+
+## isCyclicUtil
+here is a code,but please focus on the isCyclicUtil function.
+```
+#include <iostream>
+#include <vector>
+
+class Graph {
+private:
+    int V;
+    std::vector<std::vector<int>> adjMatrix;
+    bool isCyclicUtil(int v, std::vector<int>& visited, std::vector<int>& recStack);
+public:
+    Graph(int vertices);
+    bool isCyclic();
+};
+
+// 构造函数
+Graph::Graph(int vertices) {
+    V = vertices;
+    adjMatrix.resize(V, std::vector<int>(V, 0));
+}
+
+// 判断是否有环的辅助函数
+bool Graph::isCyclicUtil(int v, std::vector<int>& visited, std::vector<int>& recStack) {
+    if (visited[v] == 0) {
+        // 标记节点为正在访问
+        visited[v] = 1;
+        recStack[v] = 1;
+
+        for (int u = 0; u < V; u++) {
+            if (adjMatrix[v][u] == 1) {
+                if (!visited[u] && isCyclicUtil(u, visited, recStack))
+                    return true;
+                else if (recStack[u])
+                    return true;
+            }
+        }
+    }
+    // 标记节点为已访问且不在当前搜索路径
+    recStack[v] = 0;
+    return false;
+}
+
+// 判断是否有环
+bool Graph::isCyclic() {
+    std::vector<int> visited(V, 0);
+    std::vector<int> recStack(V, 0);
+    for (int i = 0; i < V; i++) {
+        if (isCyclicUtil(i, visited, recStack))
+            return true;
+    }
+    return false;
+}
+
+int main() {
+    // 示例：创建一个4个顶点的图，这里手动设置邻接矩阵
+    Graph g(4);
+    g.adjMatrix[0][1] = 1;
+    g.adjMatrix[0][2] = 1;
+    g.adjMatrix[1][2] = 1;
+    g.adjMatrix[2][0] = 1;
+    g.adjMatrix[2][3] = 1;
+    g.adjMatrix[3][3] = 1;
+
+    if (g.isCyclic())
+        std::cout << "Graph contains a cycle" << std::endl;
+    else
+        std::cout << "Graph doesn't contain a cycle" << std::endl;
+
+    return 0;
+}
+```
+## Connectivity for directed graphs
+
+ ![[Pasted image 20241229210004.png]]
+ all those in the same circle is **Strongly connected components(SCC)**.
+ 
+ this two who had no next SCC is **Sink SCC**.
+ ![[Pasted image 20241229210313.png]]
+ this one who had no previous SCC is **Source SCC**.
+ ![[Pasted image 20241229210606.png]]
+ if we start **Explore(G,x)** when **x** is a element of one of Sink SCC,we could find all the Sink SCC. that is useful!
+ because then we can delete the Sink SCC we found and then Explore a new Sink SCC then we will get all SCC and some other informations!!!
+ But how can we find the Sink SCC? here is a way:
+ we can find the source in the directed graph
+ here is code in python to achieve this:
+ ![[Pasted image 20241229211408.png]]
+then we let all arrows in directed graph reverse.
+we could find a element **x** in Sink SCC. Then we could Explore(G,**x**),we will get the Sink SCC!
+![[Pasted image 20241229211735.png]]
+
+
+
