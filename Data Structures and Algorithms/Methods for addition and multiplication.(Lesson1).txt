@@ -12,4 +12,4 @@ then result=A* 10 ** 6 +(C-A-B)* 10 ** 3 + B
 then  let recursion n times(2 ** n= len of 513432)
 so is O(2** 1.585)
 
-but if we want to faster ,we should use Fast Fourier Transform.(we will learn in the future)
+but if we want to faster ,we should use Fast Fourier Transform.(we will learn in the future.)

@@ -1,0 +1,22 @@
+# Big O and his friends
+## big O 
+there has a F(x) and G(x),there has at least one C which can make all n F(n)<= C * G(n),then F(n) is said to be in O(G(n)).
+## little o
+if n->infinity , F(n)/G(n)->0
+## big O mega
+![[big O mega.png]]
+F=O mega(G) if G=O(F) 
+
+## little omega
+F=w(G) if G=o(F)
+## Theta
+![[theta.png]]
+
+F=theta(G) if both F=O(G) and F=O mega(G)
+
+| O     | <=  |
+| ----- | --- |
+| o     | <   |
+| Omega | >=  |
+| w     | >   |
+| theta | =   |
