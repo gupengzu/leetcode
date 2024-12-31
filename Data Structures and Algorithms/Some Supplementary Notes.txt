@@ -20,3 +20,4 @@ F=theta(G) if both F=O(G) and F=O mega(G)
 | Omega | >=  |
 | w     | >   |
 | theta | =   |
+
